@@ -141,9 +141,6 @@ namespace YuebyAvatarTools.ComponentTransfer.Editor
                 if (mappingResult != null && mappingResult.Target != null && mappingResult.IsHighConfidence)
                 {
                     _targetCache[source] = mappingResult.Target;
-                    YuebyLogger.LogInfo("BoneMapping",
-                        $"自动匹配: {source.name} -> {mappingResult.Target.name} " +
-                        $"(策略: {mappingResult.Strategy}, 置信度: {mappingResult.Confidence:P0})");
                     return mappingResult.Target.gameObject;
                 }
 
@@ -353,9 +350,6 @@ namespace YuebyAvatarTools.ComponentTransfer.Editor
             // 记录自动创建的对象，避免被当作匹配候选项
             _autoCreatedObjects.Add(newGo.transform);
 
-            YuebyLogger.LogInfo("BoneMapping",
-                $"智能创建对象: {source.name} 在 {VRC.Core.ExtensionMethods.GetHierarchyPath(targetParent)}");
-
             return newGo.transform;
         }
 
@@ -488,7 +482,10 @@ namespace YuebyAvatarTools.ComponentTransfer.Editor
             }
         }
 
-        public abstract void DrawSettings();
+        public virtual void DrawSettings()
+        {
+            // 默认空实现，子类可选择性重写
+        }
         
         public abstract bool ExecuteTransfer(Transform sourceRoot, Transform targetRoot);
         

@@ -11,11 +11,6 @@ namespace YuebyAvatarTools.ComponentTransfer.Editor.Plugins
         public override string Name => "BlendShape转移";
         public override string Description => "转移SkinnedMeshRenderer的BlendShape权重";
 
-        public override void DrawSettings()
-        {
-            UnityEditor.EditorGUILayout.HelpBox("此插件将转移所有SkinnedMeshRenderer的BlendShape权重", UnityEditor.MessageType.Info);
-        }
-
         public override bool ExecuteTransfer(Transform sourceRoot, Transform targetRoot)
         {
             if (!IsEnabled) return true;

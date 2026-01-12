@@ -11,11 +11,6 @@ namespace YuebyAvatarTools.ComponentTransfer.Editor.Plugins
         public override string Name => "ParticleSystem转移";
         public override string Description => "转移ParticleSystem和ParticleSystemRenderer组件";
 
-        public override void DrawSettings()
-        {
-            UnityEditor.EditorGUILayout.HelpBox("此插件将转移所有ParticleSystem组件", UnityEditor.MessageType.Info);
-        }
-
         public override bool ExecuteTransfer(Transform sourceRoot, Transform targetRoot)
         {
             if (!IsEnabled) return true;

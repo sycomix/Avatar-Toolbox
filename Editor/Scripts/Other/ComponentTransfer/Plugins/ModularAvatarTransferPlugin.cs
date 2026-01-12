@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 using Yueby.Core.Utils;
 using nadena.dev.modular_avatar.core;
@@ -38,10 +37,10 @@ namespace YuebyAvatarTools.ComponentTransfer.Editor.Plugins
 
         public override void DrawSettings()
         {
-            UnityEditor.EditorGUILayout.HelpBox(
-                $"此插件将自动检测并转移所有 ModularAvatar 组件\n" +
+            // 显示支持的组件数量
+            UnityEditor.EditorGUILayout.LabelField(
                 $"当前支持 {AllMAComponentTypes.Length} 种组件类型",
-                UnityEditor.MessageType.Info);
+                UnityEditor.EditorStyles.miniLabel);
 
             // 可选：显示将要转移的组件类型列表
             _showComponentList = UnityEditor.EditorGUILayout.Foldout(_showComponentList, "支持的组件列表");
@@ -92,8 +91,6 @@ namespace YuebyAvatarTools.ComponentTransfer.Editor.Plugins
                             if (TransferMAComponent(sourceTransform, componentType))
                             {
                                 transferredCount++;
-                                YuebyLogger.LogInfo("ModularAvatarTransferPlugin",
-                                    $"转移 {componentType.Name} 组件: {sourceTransform.name}");
                             }
                             else
                             {
@@ -109,9 +106,6 @@ namespace YuebyAvatarTools.ComponentTransfer.Editor.Plugins
                     success = false;
                 }
             }
-
-            YuebyLogger.LogInfo("ModularAvatarTransferPlugin",
-                $"转移完成，共处理 {transferredCount} 个组件");
 
             return success;
         }

@@ -11,11 +11,6 @@ namespace YuebyAvatarTools.ComponentTransfer.Editor.Plugins
         public override string Name => "Active状态同步";
         public override string Description => "同步GameObject的激活状态";
 
-        public override void DrawSettings()
-        {
-            UnityEditor.EditorGUILayout.HelpBox("此插件将同步所有GameObject的激活状态", UnityEditor.MessageType.Info);
-        }
-
         public override bool ExecuteTransfer(Transform sourceRoot, Transform targetRoot)
         {
             if (!IsEnabled) return true;

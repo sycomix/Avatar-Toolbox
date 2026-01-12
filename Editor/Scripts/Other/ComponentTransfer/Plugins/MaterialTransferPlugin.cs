@@ -11,11 +11,6 @@ namespace YuebyAvatarTools.ComponentTransfer.Editor.Plugins
         public override string Name => "Material转移";
         public override string Description => "转移Renderer组件的材质";
 
-        public override void DrawSettings()
-        {
-            UnityEditor.EditorGUILayout.HelpBox("此插件将转移所有Renderer组件的Material", UnityEditor.MessageType.Info);
-        }
-
         public override bool ExecuteTransfer(Transform sourceRoot, Transform targetRoot)
         {
             if (!IsEnabled) return true;

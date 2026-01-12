@@ -222,7 +222,6 @@ namespace YuebyAvatarTools.ComponentTransfer.Editor.Plugins
                             }
                         }
                         list.Add(colBase);
-                        YuebyLogger.LogInfo("PhysBoneTransferPlugin", $"转移碰撞器引用: {collider.name}");
                     }
                     else
                     {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Yueby.Tools.AvatarToolbox.MaterialPreset;
@@ -125,15 +126,49 @@ namespace Yueby.Tools.AvatarToolbox.MaterialPreset.Editor.Services
                 var newMaterials = new Material[currentMaterials.Length];
                 Array.Copy(currentMaterials, newMaterials, currentMaterials.Length);
 
+                // 记录已经被替换的槽位索引
+                var replacedIndices = new HashSet<int>();
+
+                // 第一遍：智能匹配
                 foreach (var slot in config.MaterialSlots)
                 {
                     var match = MaterialMatcher.FindBestMatch(slot, currentMaterials, config.MatchMode);
                     if (match != null)
                     {
                         int index = Array.IndexOf(currentMaterials, match);
-                        if (index >= 0) newMaterials[index] = slot.MaterialRef;
+                        if (index >= 0)
+                        {
+                            newMaterials[index] = slot.MaterialRef;
+                            replacedIndices.Add(index);
+                        }
                     }
                 }
+
+                // 第二遍：对于没有匹配到的，按索引回退替换
+                foreach (var slot in config.MaterialSlots)
+                {
+                    // 检查是否已经通过智能匹配替换过
+                    bool alreadyReplaced = false;
+                    for (int i = 0; i < newMaterials.Length; i++)
+                    {
+                        if (newMaterials[i] == slot.MaterialRef)
+                        {
+                            alreadyReplaced = true;
+                            break;
+                        }
+                    }
+
+                    // 如果没有被替换，且槽位索引有效，且该索引未被占用
+                    if (!alreadyReplaced &&
+                        slot.SlotIndex >= 0 &&
+                        slot.SlotIndex < newMaterials.Length &&
+                        !replacedIndices.Contains(slot.SlotIndex))
+                    {
+                        newMaterials[slot.SlotIndex] = slot.MaterialRef;
+                        replacedIndices.Add(slot.SlotIndex);
+                    }
+                }
+
                 target.sharedMaterials = newMaterials;
                 EditorUtility.SetDirty(target);
             }
